@@ -16,10 +16,12 @@ use App\Http\Controllers\UserController;
 */
 
 Route::redirect('/', 'users');
-Route::get('/users', [UserController::class, 'index'])->name('users.index');
-Route::get('/users/create', [UserController::class, 'create'])->name('users.create');
-Route::post('/users', [UserController::class, 'store'])->name('users.store');
-Route::get('/users/{id}', [UserController::class, 'show'])->name('users.show');
-Route::get('/users/{id}/edit', [UserController::class, 'edit'])->name('users.edit');
-Route::put('/users/{id}', [UserController::class, 'update'])->name('users.update');
-Route::delete('/users/{id}', [UserController::class, 'destroy'])->name('users.destroy');
+Route::prefix('users')->group(function () {
+    Route::get('/', [UserController::class, 'index'])->name('users.index');
+    Route::get('/create', [UserController::class, 'create'])->name('users.create');
+    Route::post('/store', [UserController::class, 'store'])->name('users.store');
+    Route::get('/detail/{id}', [UserController::class, 'show'])->name('users.show');
+    Route::get('/{id}/edit', [UserController::class, 'edit'])->name('users.edit');
+    Route::put('/update/{id}', [UserController::class, 'update'])->name('users.update');
+    Route::delete('/destroy/{id}', [UserController::class, 'destroy'])->name('users.destroy');
+});
