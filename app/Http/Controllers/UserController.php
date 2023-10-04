@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Contracts\Services\UserServiceInterface;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
+use App\Models\User;
 
 class UserController extends Controller
 {
@@ -15,27 +16,43 @@ class UserController extends Controller
      * @var mixed
      */
     private $userService;
-
+    
+    /**
+     * __construct
+     *
+     * @param  mixed $userServiceInterface
+     * @return void
+     */
     public function __construct(UserServiceInterface $userServiceInterface)
     {
         $this->userService = $userServiceInterface;
     }
-
+    
+    /**
+     * index
+     *
+     * @return void
+     */
     public function index()
     {
         $users = $this->userService->getUsers();
         $users = $users->map(function ($user) {
-            if ($user->role == 1) {
-                $user->role = 'admin';
-            } elseif ($user->role == 2) {
-                $user->role = 'member';
+            if ($user->role == User::ADMIN_ROLE) {
+                $user->role = 'Admin';
+            } elseif ($user->role == User::MEMBER_ROLE) {
+                $user->role = 'Member';
             }
             return $user;
         });
 
         return view('users.index', compact('users'));
     }
-
+    
+    /**
+     * create
+     *
+     * @return void
+     */
     public function create()
     {
         return view('users.create');
@@ -56,25 +73,44 @@ class UserController extends Controller
 
         return redirect()->route('users.index')->with('success', $created);
     }
-
+    
+    /**
+     * show
+     *
+     * @param  mixed $id
+     * @return void
+     */
     public function show(int $id)
     {
         $user = $this->userService->getUserById($id);
-        if ($user->role == 1) {
-            $user->role = 'admin';
-        } elseif ($user->role == 2) {
-            $user->role = 'member';
+        if ($user->role == User::ADMIN_ROLE) {
+            $user->role = 'Admin';
+        } elseif ($user->role == User::MEMBER_ROLE) {
+            $user->role = 'Member';
         }
         return view('users.show', compact('user'));
     }
-
+    
+    /**
+     * edit
+     *
+     * @param  mixed $id
+     * @return void
+     */
     public function edit(int $id)
     {
         $user = $this->userService->getUserById($id);
 
         return view('users.edit', compact('user'));
     }
-
+    
+    /**
+     * update
+     *
+     * @param  mixed $request
+     * @param  mixed $id
+     * @return void
+     */
     public function update(Request $request, int $id)
     {
         $request->validate([
@@ -95,7 +131,13 @@ class UserController extends Controller
         return redirect()->route('users.index')
             ->with('success', $updated);
     }
-
+    
+    /**
+     * destroy
+     *
+     * @param  mixed $id
+     * @return void
+     */
     public function destroy(int $id)
     {
         $this->userService->deleteUserById($id);
