@@ -2,7 +2,10 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
-
+use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\Auth\ForgotPasswordController;
+use Illuminate\Support\Facades\Auth;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,7 +18,16 @@ use App\Http\Controllers\UserController;
 |
 */
 
-Route::get('/', function () {
-  return view('welcome');
-});
 
+
+Auth::routes();
+
+Route::redirect('/', 'login');
+Route::prefix('/')->group(function () {
+    Route::get('/login', [LoginController::class, 'index'])->name('login');
+    Route::post('/login', [LoginController::class, 'login'])->name('auth.login');
+    Route::get('/home', [HomeController::class, 'index'])->name('home');
+    Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
+    Route::get('/password/change', [HomeController::class, 'passwordChange'])->name('pass.change');
+    Route::get('/password/Update', [HomeController::class, 'updatePassword'])->name('pass.update');
+});
