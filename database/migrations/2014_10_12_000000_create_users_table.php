@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('password');
             $table->string('name');
             $table->string('img')->nullable();
-            $table->integer('role');
+            $table->integer('role')->default('2');
             $table->integer('created_by')->nullable();
             $table->integer('updated_by')->nullable();
             $table->rememberToken();

@@ -40,12 +40,23 @@ class LoginController extends Controller
     {
         $this->middleware('guest')->except('logout');
     }
-
+    
+    /**
+     * index
+     *
+     * @return void
+     */
     public function index()
     {
         return view('auth.login');
     }
-
+    
+    /**
+     * login
+     *
+     * @param  mixed $request
+     * @return void
+     */
     public function login(Request $request)
     {
         $getUser = $request->validate([
@@ -56,10 +67,16 @@ class LoginController extends Controller
         if (Auth::attempt($getUser)) {
             return redirect()->intended('home');
         }
+        $failLogin = config('messages.login.fail_login');
         
-        return back()->with('error', 'Invalid email or password');
+        return back()->with('error', $failLogin);
     }
-
+    
+    /**
+     * logOut
+     *
+     * @return void
+     */
     public function logOut()
     {
         Session::flush();

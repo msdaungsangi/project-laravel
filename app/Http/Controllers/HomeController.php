@@ -6,6 +6,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use App\Contracts\Services\LoginServiceInterface;
 
+/**
+ * HomeController
+ */
 class HomeController extends Controller
 {
     /**
@@ -36,11 +39,23 @@ class HomeController extends Controller
     {
         return view('home');
     }
+
+    /**
+     * passwordChange
+     *
+     * @return void
+     */
     public function passwordChange()
     {
         return view('auth.change');
     }
-
+    
+    /**
+     * updatePassword
+     *
+     * @param  mixed $request
+     * @return void
+     */
     public function updatePassword(Request $request)
     {
         $request->validate([
@@ -48,22 +63,21 @@ class HomeController extends Controller
             'new_password' => 'required|max:255',
             'new_password_confirmation' => 'required|max:255',
         ]);
-        $samePass = config('messages.login.pass_same');
-        $oldPass = config('messages.login.old_pass_incorrect');
-        $success = config('messages.login.pass_change_success');
 
         $password = $request->only(
             'new_password',
         );
 
         if (!Hash::check($request->old_password, auth()->user()->password)) {
+            $oldPass = config('messages.login.old_pass_incorrect');
             return back()->with('error', $oldPass);
         } else if ($request->new_password != $request->new_password_confirmation) {
+            $samePass = config('messages.login.pass_same');
             return back()->with('error', $samePass);
         } else {
+            $success = config('messages.login.pass_change_success');
             $this->loginService->updatePassword($request, $password);
             return redirect()->route('home')->with('success', $success);
         }
     }
-
 }
