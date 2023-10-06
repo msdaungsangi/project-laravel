@@ -17,7 +17,7 @@
     {{-- bootstrap css --}}
     <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet">
     {{-- bootstrap bundle --}}
-    <script src="{{ asset('js/bootstrap.bundle.min.js') }}"></script>
+    <script src="{{ asset('js/bootstrap.min.js') }}"></script>
 </head>
 
 <body>
@@ -34,9 +34,17 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav me-auto">
-
+                    @guest
+                        @if (Route::has('login'))
+                        
+                        @endif
+                        @else
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{route('users.index')}}">User Lists</a>
+                        </li>
+                        @endguest
                     </ul>
-
+                    
                     <!-- Right Side Of Navbar -->
                     <ul class="navbar-nav ms-auto">
                         <!-- Authentication Links -->

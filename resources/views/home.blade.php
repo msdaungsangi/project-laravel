@@ -8,11 +8,15 @@
         <div class="card-header">{{ __('Dashboard') }}</div>
         <div class="card-body">
           @if ($message = Session::get('success'))
-          <p class="alert alert-success">{{ $message }}</p>
+          <div class="alert alert-success alert-dismissible fade show" role="alert">
+            {{ $message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>
           @endif
           @if (session('status'))
-          <div class="alert alert-success" role="alert">
-            {{ session('status') }}
+          <div class="alert alert-success alert-dismissible fade show" role="alert">
+          {{ session('status') }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
           </div>
           @endif
           <h2>Hello, {{ Auth::user()->name }}.</h2>

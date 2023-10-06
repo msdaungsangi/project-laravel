@@ -69,7 +69,7 @@ class UserController extends Controller
         ]);
         $user = $request->all();
         $this->userService->createUser($request, $user);
-        $created = config('custom-messages.user.create_success');
+        $created = config('messages.user.create_success');
 
         return redirect()->route('users.index')->with('success', $created);
     }
@@ -126,7 +126,7 @@ class UserController extends Controller
         ]);
         $user = $request->all();
         $this->userService->updateUser($request, $user, $id);
-        $updated = config('custom-messages.user.update_success');
+        $updated = config('messages.user.update_success');
 
         return redirect()->route('users.index')
             ->with('success', $updated);
@@ -141,7 +141,7 @@ class UserController extends Controller
     public function destroy(int $id)
     {
         $this->userService->deleteUserById($id);
-        $deleted = config('custom-messages.user.delete_success');
+        $deleted = config('messages.user.delete_success');
 
         return redirect()->back()
             ->with('danger', $deleted);

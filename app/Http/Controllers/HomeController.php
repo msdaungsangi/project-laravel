@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Hash;
 use App\Contracts\Services\LoginServiceInterface;
 
 class HomeController extends Controller
-{    
+{
     /**
      * loginService
      *
@@ -48,18 +48,22 @@ class HomeController extends Controller
             'new_password' => 'required|max:255',
             'new_password_confirmation' => 'required|max:255',
         ]);
+        $samePass = config('messages.login.pass_same');
+        $oldPass = config('messages.login.old_pass_incorrect');
+        $success = config('messages.login.pass_change_success');
+
+        $password = $request->only(
+            'new_password',
+        );
 
         if (!Hash::check($request->old_password, auth()->user()->password)) {
-            return back()->with('error', 'Old password is incorrect.');
+            return back()->with('error', $oldPass);
+        } else if ($request->new_password != $request->new_password_confirmation) {
+            return back()->with('error', $samePass);
+        } else {
+            $this->loginService->updatePassword($request, $password);
+            return redirect()->route('home')->with('success', $success);
         }
-        if ($request->new_password != $request->new_password_confirmation) {
-            return back()->with('error', 'New password and confirm password must be the same.');
-        }
-
-        auth()->user()->update([
-            'password' => Hash::make($request->new_password),
-        ]);
-
-        return redirect()->route('home')->with('success', 'Password changed successfully.');
     }
+
 }

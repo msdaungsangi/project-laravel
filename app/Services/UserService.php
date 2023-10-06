@@ -7,6 +7,7 @@ use App\Contracts\Services\UserServiceInterface;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Auth;
 
 /**
  * UserService
@@ -50,28 +51,54 @@ class UserService implements UserServiceInterface
      */
     public function createUser(Request $request, array $data)
     {
-        if ($request->file('img')) {
-            $imageName = time() . '.' . $request->file('img')->getClientOriginalExtension();
-            $folder = 'public/images';
+        if (Auth::check()) {
+            $user = Auth::user();
 
-            if (!File::isDirectory($folder)) {
-                File::makeDirectory($folder, 0755, true, true);
+            if ($request->file('img')) {
+                $imageName = time() . '.' . $request->file('img')->getClientOriginalExtension();
+                $folder = 'public/images';
+
+                if (!File::isDirectory($folder)) {
+                    File::makeDirectory($folder, 0755, true, true);
+                }
+                $request->file('img')->storeAs($folder, $imageName);
+            } else {
+                $imageName = null;
             }
-            $request->file('img')->storeAs($folder, $imageName);
+
+            $data = [
+                'email' => $data['email'],
+                'name' => $data['name'],
+                'password' => Hash::make($data['password']),
+                'img' => $imageName,
+                'role' => $data['role'],
+                'created_by' => $user->id,
+            ];
+
+            $this->userDao->createUser($request, $data);
         } else {
-            $imageName = null;
+            if ($request->file('img')) {
+                $imageName = time() . '.' . $request->file('img')->getClientOriginalExtension();
+                $folder = 'public/images';
+
+                if (!File::isDirectory($folder)) {
+                    File::makeDirectory($folder, 0755, true, true);
+                }
+                $request->file('img')->storeAs($folder, $imageName);
+            } else {
+                $imageName = null;
+            }
+            $data = [
+                'email' => $data['email'],
+                'name' => $data['name'],
+                'password' => Hash::make($data['password']),
+                'img' => $imageName,
+                'role' => $data['role'],
+            ];
+
+            $this->userDao->createUser($request, $data);
         }
-        $data = [
-            'email' => $data['email'],
-            'name' => $data['name'],
-            'password' => Hash::make($data['password']),
-            'img' => $imageName,
-            'role' => $data['role'],
-        ];
-
-        $this->userDao->createUser($request, $data);
     }
-
 
     /**
      * getUserById
@@ -84,7 +111,6 @@ class UserService implements UserServiceInterface
         return $this->userDao->getUserById($id);
     }
 
-
     /**
      * updateUser
      *
@@ -95,26 +121,51 @@ class UserService implements UserServiceInterface
      */
     public function updateUser(Request $request, array $data, int $id)
     {
-        if ($request->file('img')) {
-            $imageName = time() . '.' . $request->file('img')->getClientOriginalExtension();
-            $folder = 'public/images';
+        if (Auth::check()) {
+            $user = Auth::user();
+            if ($request->file('img')) {
+                $imageName = time() . '.' . $request->file('img')->getClientOriginalExtension();
+                $folder = 'public/images';
 
-            if (!File::isDirectory($folder)) {
-                File::makeDirectory($folder, 0755, true, true);
+                if (!File::isDirectory($folder)) {
+                    File::makeDirectory($folder, 0755, true, true);
+                }
+                $request->file('img')->storeAs($folder, $imageName);
+            } else {
+                $imageName = null;
             }
-            $request->file('img')->storeAs($folder, $imageName);
+            $data = [
+                'name' => $data['name'],
+                'email' => $data['email'],
+                'password' => Hash::make($data['password']),
+                'img' => $imageName,
+                'role' => $data['role'],
+                'updated_by' => $user->id,
+            ];
+
+            $this->userDao->updateUser($request, $data, $id);
         } else {
-            $imageName = null;
+            if ($request->file('img')) {
+                $imageName = time() . '.' . $request->file('img')->getClientOriginalExtension();
+                $folder = 'public/images';
+
+                if (!File::isDirectory($folder)) {
+                    File::makeDirectory($folder, 0755, true, true);
+                }
+                $request->file('img')->storeAs($folder, $imageName);
+            } else {
+                $imageName = null;
+            }
+            $data = [
+                'name' => $data['name'],
+                'email' => $data['email'],
+                'password' => Hash::make($data['password']),
+                'img' => $imageName,
+                'role' => $data['role'],
+            ];
+
+            $this->userDao->updateUser($request, $data, $id);
         }
-        $data = [
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'password' => Hash::make($data['password']),
-            'img' => $imageName,
-            'role' => $data['role'],
-        ];
-        
-        $this->userDao->updateUser($request, $data, $id);
     }
 
     /**
