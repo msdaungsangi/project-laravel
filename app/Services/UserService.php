@@ -51,10 +51,16 @@ class UserService implements UserServiceInterface
      */
     public function registerUser(Request $request, array $data)
     {
+        if ($request->role == null){
+            $role = '2';
+        } else {
+            $role = $request->role;
+        }
         $data = [
             'email' => $data['email'],
             'name' => $data['name'],
             'password' => Hash::make($data['password']),
+            'role' => $role,
         ];
 
         $this->userDao->registerUser($request, $data);
@@ -71,6 +77,8 @@ class UserService implements UserServiceInterface
     {
         if (Auth::check()) {
             $createdBy = Auth::user()->id;
+        } else {
+            $createdBy = null;
         }
         if ($request->file('img')) {
             $imageName = time() . '.' . $request->file('img')->getClientOriginalExtension();
@@ -119,6 +127,8 @@ class UserService implements UserServiceInterface
     {
         if (Auth::check()) {
             $updatedBy = Auth::user()->id;
+        } else {
+            $updatedBy = null;
         }
 
         if ($request->file('img')) {

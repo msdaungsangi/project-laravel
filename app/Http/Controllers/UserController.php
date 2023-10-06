@@ -57,7 +57,13 @@ class UserController extends Controller
     {
         return view('users.create');
     }
-
+    
+    /**
+     * registUser
+     *
+     * @param  mixed $request
+     * @return void
+     */
     public function registUser(Request $request)
     {
         $request->validate([
@@ -70,7 +76,13 @@ class UserController extends Controller
         $created = config('messages.user.create_success');
         return redirect()->route('auth.login')->with('success', $created);
     }
-
+    
+    /**
+     * store
+     *
+     * @param  mixed $request
+     * @return void
+     */
     public function store(Request $request)
     {
         $request->validate([
