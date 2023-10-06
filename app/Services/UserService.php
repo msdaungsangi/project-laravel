@@ -41,7 +41,25 @@ class UserService implements UserServiceInterface
     {
         return $this->userDao->getUsers();
     }
+    
+    /**
+     * registerUser
+     *
+     * @param  mixed $request
+     * @param  mixed $data
+     * @return void
+     */
+    public function registerUser(Request $request, array $data)
+    {
+        $data = [
+            'email' => $data['email'],
+            'name' => $data['name'],
+            'password' => Hash::make($data['password']),
+        ];
 
+        $this->userDao->registerUser($request, $data);
+    }
+    
     /**
      * createUser
      *

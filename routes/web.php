@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Auth;
 
@@ -26,6 +27,8 @@ Route::prefix('/')->group(function () {
     Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
     Route::get('/password/change', [HomeController::class, 'passwordChange'])->name('pass.change');
     Route::get('/password/Update', [HomeController::class, 'updatePassword'])->name('pass.update');
+    Route::get('/password/Update', [HomeController::class, 'updatePassword'])->name('pass.update');
+    Route::get('/register/user', [UserController::class, 'registUser'])->name('user.register');
 });
 
 Route::prefix('users')->group(function () {

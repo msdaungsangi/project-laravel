@@ -58,6 +58,19 @@ class UserController extends Controller
         return view('users.create');
     }
 
+    public function registUser(Request $request)
+    {
+        $request->validate([
+            'email' => 'email|max:100|unique:users',
+            'password' => 'required|max:255',
+            'name' => 'required|max:100',
+        ]);
+        $user = $request->all();
+        $this->userService->registerUser($request, $user);
+        $created = config('messages.user.create_success');
+        return redirect()->route('auth.login')->with('success', $created);
+    }
+
     public function store(Request $request)
     {
         $request->validate([
