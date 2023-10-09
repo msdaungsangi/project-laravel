@@ -2,7 +2,10 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
-
+use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\HomeController;
+use Illuminate\Support\Facades\Auth;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,8 +17,20 @@ use App\Http\Controllers\UserController;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+Route::redirect('/', 'login');
 
-Route::redirect('/', 'users');
+Auth::routes();
+Route::prefix('/')->group(function () {
+    Route::get('/login', [LoginController::class, 'index'])->name('login');
+    Route::post('/login', [LoginController::class, 'login'])->name('auth.login');
+    Route::get('/home', [HomeController::class, 'index'])->name('home');
+    Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
+    Route::get('/password/change', [HomeController::class, 'passwordChange'])->name('pass.change');
+    Route::get('/password/Update', [HomeController::class, 'updatePassword'])->name('pass.update');
+    Route::get('/password/Update', [HomeController::class, 'updatePassword'])->name('pass.update');
+    Route::get('/register/user', [UserController::class, 'registUser'])->name('user.register');
+});
+
 Route::prefix('users')->group(function () {
     Route::get('/', [UserController::class, 'index'])->name('users.index');
     Route::get('/create', [UserController::class, 'create'])->name('users.create');

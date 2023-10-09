@@ -21,6 +21,18 @@ class UserDao implements UserDaoInterface
         $users = User::orderBy('id')->get();
         return $users;
     }
+        
+    /**
+     * registerUser
+     *
+     * @param  mixed $request
+     * @param  mixed $data
+     * @return void
+     */
+    public function registerUser(Request $request, array $data)
+    {
+        User::create($data);
+    }
 
     /**
      * createUser
