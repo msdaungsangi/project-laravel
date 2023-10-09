@@ -6,6 +6,7 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\PostController;
 
 /*
 |--------------------------------------------------------------------------
@@ -40,4 +41,15 @@ Route::prefix('/')->group(function () {
     Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
     Route::get('/password/change', [HomeController::class, 'passwordChange'])->name('pass.change');
     Route::get('/password/Update', [HomeController::class, 'updatePassword'])->name('pass.update');
+});
+
+Route::redirect('/', 'posts');
+Route::prefix('posts')->group(function () {
+    Route::get('/', [PostController::class, 'posts'])->name('posts.index');
+    Route::get('/create', [PostController::class, 'create'])->name('posts.create');
+    Route::post('/store', [PostController::class, 'createPost'])->name('posts.store');
+    Route::get('/detail/{id}', [PostController::class, 'detail'])->name('posts.detail');
+    Route::get('/{id}/edit', [PostController::class, 'edit'])->name('posts.edit');
+    Route::put('/update/{id}', [PostController::class, 'update'])->name('posts.update');
+    Route::delete('/destroy/{id}', [PostController::class, 'destroy'])->name('posts.delete');
 });
