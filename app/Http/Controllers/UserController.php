@@ -57,7 +57,32 @@ class UserController extends Controller
     {
         return view('users.create');
     }
-
+    
+    /**
+     * registUser
+     *
+     * @param  mixed $request
+     * @return void
+     */
+    public function registUser(Request $request)
+    {
+        $request->validate([
+            'email' => 'email|max:100|unique:users',
+            'password' => 'required|max:255',
+            'name' => 'required|max:100',
+        ]);
+        $user = $request->all();
+        $this->userService->registerUser($request, $user);
+        $created = config('messages.user.create_success');
+        return redirect()->route('auth.login')->with('success', $created);
+    }
+    
+    /**
+     * store
+     *
+     * @param  mixed $request
+     * @return void
+     */
     public function store(Request $request)
     {
         $request->validate([
@@ -69,7 +94,7 @@ class UserController extends Controller
         ]);
         $user = $request->all();
         $this->userService->createUser($request, $user);
-        $created = config('custom-messages.user.create_success');
+        $created = config('messages.user.create_success');
 
         return redirect()->route('users.index')->with('success', $created);
     }
@@ -126,7 +151,7 @@ class UserController extends Controller
         ]);
         $user = $request->all();
         $this->userService->updateUser($request, $user, $id);
-        $updated = config('custom-messages.user.update_success');
+        $updated = config('messages.user.update_success');
 
         return redirect()->route('users.index')
             ->with('success', $updated);
@@ -141,7 +166,7 @@ class UserController extends Controller
     public function destroy(int $id)
     {
         $this->userService->deleteUserById($id);
-        $deleted = config('custom-messages.user.delete_success');
+        $deleted = config('messages.user.delete_success');
 
         return redirect()->back()
             ->with('danger', $deleted);

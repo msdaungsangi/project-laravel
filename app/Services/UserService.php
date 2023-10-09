@@ -7,6 +7,7 @@ use App\Contracts\Services\UserServiceInterface;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Auth;
 
 /**
  * UserService
@@ -40,7 +41,31 @@ class UserService implements UserServiceInterface
     {
         return $this->userDao->getUsers();
     }
+    
+    /**
+     * registerUser
+     *
+     * @param  mixed $request
+     * @param  mixed $data
+     * @return void
+     */
+    public function registerUser(Request $request, array $data)
+    {
+        if ($request->role == null){
+            $role = '2';
+        } else {
+            $role = $request->role;
+        }
+        $data = [
+            'email' => $data['email'],
+            'name' => $data['name'],
+            'password' => Hash::make($data['password']),
+            'role' => $role,
+        ];
 
+        $this->userDao->registerUser($request, $data);
+    }
+    
     /**
      * createUser
      *
@@ -50,6 +75,11 @@ class UserService implements UserServiceInterface
      */
     public function createUser(Request $request, array $data)
     {
+        if (Auth::check()) {
+            $createdBy = Auth::user()->id;
+        } else {
+            $createdBy = null;
+        }
         if ($request->file('img')) {
             $imageName = time() . '.' . $request->file('img')->getClientOriginalExtension();
             $folder = 'public/images';
@@ -61,17 +91,18 @@ class UserService implements UserServiceInterface
         } else {
             $imageName = null;
         }
+
         $data = [
             'email' => $data['email'],
             'name' => $data['name'],
             'password' => Hash::make($data['password']),
             'img' => $imageName,
             'role' => $data['role'],
+            'created_by' => $createdBy,
         ];
 
         $this->userDao->createUser($request, $data);
     }
-
 
     /**
      * getUserById
@@ -84,7 +115,6 @@ class UserService implements UserServiceInterface
         return $this->userDao->getUserById($id);
     }
 
-
     /**
      * updateUser
      *
@@ -95,6 +125,12 @@ class UserService implements UserServiceInterface
      */
     public function updateUser(Request $request, array $data, int $id)
     {
+        if (Auth::check()) {
+            $updatedBy = Auth::user()->id;
+        } else {
+            $updatedBy = null;
+        }
+
         if ($request->file('img')) {
             $imageName = time() . '.' . $request->file('img')->getClientOriginalExtension();
             $folder = 'public/images';
@@ -112,8 +148,9 @@ class UserService implements UserServiceInterface
             'password' => Hash::make($data['password']),
             'img' => $imageName,
             'role' => $data['role'],
+            'updated_by' => $updatedBy,
         ];
-        
+
         $this->userDao->updateUser($request, $data, $id);
     }
 

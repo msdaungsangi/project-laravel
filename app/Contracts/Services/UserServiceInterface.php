@@ -15,4 +15,6 @@ interface UserServiceInterface
     public function updateUser(Request $request, array $data, int $id);
 
     public function deleteUserById(int $id);
+
+    public function registerUser(Request $request, array $data);
 }
