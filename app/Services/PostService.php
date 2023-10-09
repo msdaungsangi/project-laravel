@@ -36,6 +36,26 @@ class PostService implements PostServiceInterface
     public function getPosts(): object
     {
         $posts = $this->PostDao->getPosts();
+        if (!auth()->check()) {
+            $posts = $posts->filter(function ($post) {
+                return $post->public_flag == Post::PUBLIC;
+            });
+            $posts = $posts->map(function ($post) {
+                if ($post->public_flag == Post::PUBLIC) {
+                    $post->public_flag = 'Public';
+                }
+                return $post;
+            });
+        } else {
+            $posts = $posts->map(function ($post) {
+                if ($post->public_flag == Post::PUBLIC) {
+                    $post->public_flag = 'Public';
+                } elseif ($post->public_flag == Post::PRIVATE) {
+                    $post->public_flag = 'Private';
+                }
+                return $post;
+            });
+        }
         return $posts;
     }
 
@@ -69,7 +89,13 @@ class PostService implements PostServiceInterface
      */
     public function getPostById(int $id): object
     {
-        return $this->PostDao->getPostById($id);
+        $post = $this->PostDao->getPostById($id);
+        if ($post->public_flag == Post::PUBLIC) {
+            $post->public_flag = 'Public';
+        } elseif ($post->public_flag == Post::PRIVATE) {
+            $post->public_flag = 'Private';
+        }
+        return $post;
     }
 
     /**

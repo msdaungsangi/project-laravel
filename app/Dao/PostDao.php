@@ -4,15 +4,16 @@ namespace App\Dao;
 
 use App\Contracts\Dao\PostDaoInterface;
 use App\Models\Post;
+use Illuminate\Database\Eloquent\Collection;
 
 class PostDao implements PostDaoInterface
 {    
     /**
      * getPosts
      *
-     * @return object
+     * @return \Illuminate\Database\Eloquent\Collection;
      */
-    public function getPosts(): object
+    public function getPosts(): Collection
     {
         $posts = Post::orderBy('id')->get();
         return $posts;
@@ -33,7 +34,7 @@ class PostDao implements PostDaoInterface
      * getPostById
      *
      * @param  mixed $id
-     * @return object
+     * @return Post
      */
     public function getPostById(int $id): object
     {
