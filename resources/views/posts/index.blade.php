@@ -9,8 +9,7 @@
     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
   </div>
   @endif
-  @if (empty(Auth::user()))
-  @else
+  @if (!empty(Auth::user()))
   <div class="d-flex">
     <a href="{{ route('posts.create') }}" class="btn btn-primary btn-sm mb-3">Create Post</a>
   </div>
