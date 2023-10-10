@@ -12,6 +12,9 @@ class Post extends Model
 {
     use  HasFactory;
 
+    const PUBLIC = true;
+    const PRIVATE = false;
+
     protected $fillable = [
         'title',
         'description',

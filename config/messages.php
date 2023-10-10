@@ -1,6 +1,6 @@
 <?php
 return [
-    'user' => [
+  'user' => [
         'create_success' => 'User Created successfully.',
         'update_success' => 'User Updated successfully.',
         'delete_success' => 'User Deleted successfully.',
@@ -11,5 +11,11 @@ return [
         'pass_same' => 'New password and confirm password must be the same.',
         'pass_change_success' => 'Password changed successfully.',
         'fail_login' => 'Incorrect email or password.',
-    ]
+    ],
+
+    'post' => [
+        'success_create' => 'Successfully created.',
+        'success_delete' => 'Successfully deleted.',
+        'success_update' => 'Successfully updated..',
+      ],
 ];

@@ -34,15 +34,18 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav me-auto">
-                    @guest
-                        @if (Route::has('login'))
-                        
-                        @endif
+                        @guest
+                            @if (Route::has('login'))
+                            
+                            @endif
                         @else
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{route('users.index')}}">User Lists</a>
-                        </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{route('users.index')}}">User Lists</a>
+                            </li>
                         @endguest
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('posts.index') }}">Posts</a>
+                        </li>
                     </ul>
                     
                     <!-- Right Side Of Navbar -->
