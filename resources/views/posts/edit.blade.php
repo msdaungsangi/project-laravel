@@ -8,8 +8,9 @@
       Post Edit
     </h4>
     <div class="card-body">
-      <form action="" method="POST" enctype="multipart/form-data">
+      <form action="{{ route('posts.update', $post->id) }}" method="POST" enctype="multipart/form-data">
         @csrf
+        @method('PUT')
         <div class="form-group">
           <label class="form-label">Title</label>
           <input type="text" name="title" class="form-control @error('title') is-invalid @enderror" placeholder="Title" value="{{ $post->title }}">
@@ -27,9 +28,9 @@
         </div>
 
         <div class="form-group my-2">
-          <input type="radio" name="public_flag" id="public" value="1" class="form-check-input" {{ old('public_flag') == true ? 'checked' : '' }}>
+          <input type="radio" name="public_flag" id="public" value="true" class="form-check-input" {{ $post->public_value == true ? 'checked' : '' }}>
           <label for="adminRole" class="form-check-label">Public</label>
-          <input type="radio" name="public_flag" id="private" value="2" class="form-check-input" {{ old('public_flag') == false ? 'checked' : '' }}>
+          <input type="radio" name="public_flag" id="private" value="false" class="form-check-input" {{ $post->public_value == false ? 'checked' : '' }}>
           <label for="userRole" class="form-check-label">Private</label>
           @error('public_flag')
           <span class="text-danger">{{ $message }}</span>

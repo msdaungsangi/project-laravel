@@ -35,17 +35,11 @@
           <strong class="text-danger">{{ $message }}</strong>
           @enderror
         </div>
-        @if (empty(Auth::user()))
-        <div class="d-flex justify-content-between mt-2">
-          <a href="{{ route('posts.index') }}" type="submit" class="btn btn-secondary">Back</a>
-          <a href="{{ route('login') }}" type="submit" class="btn btn-primary">Create</a>
-        </div>
-        @else
+        
         <div class="d-flex justify-content-between mt-2">
           <a href="{{ route('posts.index') }}" type="submit" class="btn btn-secondary">Back</a>
           <button type="submit" class="btn btn-primary">Create</button>
         </div>
-        @endif
       </form>
     </div>
   </div>

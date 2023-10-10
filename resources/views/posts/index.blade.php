@@ -9,9 +9,12 @@
     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
   </div>
   @endif
+  @if (empty(Auth::user()))
+  @else
   <div class="d-flex">
     <a href="{{ route('posts.create') }}" class="btn btn-primary btn-sm mb-3">Create Post</a>
   </div>
+  @endif
   @foreach ($posts as $post)
   <div class="card mt-2">
     <div class="card-header d-flex justify-content-between">
