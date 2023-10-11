@@ -46,9 +46,8 @@
                                     </a>
                                     <a href="{{ route('users.show', $user->id) }}"
                                         class="btn btn-secondary btn-sm mx-2">View</a>
-                                    <form action="{{ route('users.destroy', $user->id) }}" method="POST">
+                                    <form action="{{ route('users.destroy', $user->id) }}" method="GET">
                                         @csrf
-                                        @method('DELETE')
                                         <button class="btn btn-danger btn-sm" onclick="return confirm('Do you want to delete?')">Delete</button>
                                     </form>
                                 </td>
