@@ -38,11 +38,7 @@ class PostDeleteRequest extends FormRequest
     {
         $validator->addExtension('delete_own_post', function ($attr, $postId) {
             $userId = Auth::user()->id;
-            if ( DB::table('posts')->where('id', $postId)->where('created_by', $userId)->exists()) {
-                return true;
-            } else {
-                return false;
-            }
+            return DB::table('posts')->where('id', $postId)->where('created_by', $userId)->exists();
         });
     }
 }

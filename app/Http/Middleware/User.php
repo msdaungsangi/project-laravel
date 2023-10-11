@@ -7,11 +7,12 @@ use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Support\Facades\Auth;
 use App\Contracts\Services\UserServiceInterface;
+use App\Models\User;
 
-class User
+class UserControl
 {
     protected $userService;
-    
+
     /**
      * __construct
      *
@@ -32,19 +33,12 @@ class User
     {
         if (!Auth::check()) {
             return response(view('403'));
+        }
+        $user = $this->userService->getUserById($request->id);
+        if (Auth::user()->id == $user->id || Auth::user()->role == User::ADMIN_ROLE) {
+            return $next($request);
         } else {
-            if (Auth::user()->role == 2) {
-                $user = $this->userService->getUserById($request->id);
-                if (Auth::user()->id == $user->id) {
-                    return $next($request);
-                } else {
-                    return response(view('403'));
-                }
-            } else if (Auth::user()->role == 1) {
-                return $next($request);
-            } else {
-                return response(view('403'));
-            }
+            return response(view('403'));
         }
     }
 }

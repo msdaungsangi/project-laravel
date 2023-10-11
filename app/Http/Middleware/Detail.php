@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Support\Facades\Auth;
 use App\Contracts\Services\PostServiceInterface;
+use App\Models\Post;
 
 class Detail
 {
@@ -32,7 +33,7 @@ class Detail
     {
         if (!Auth::check()) {
             $post = $this->postService->getPostById($request->id);
-            if ($post && $post->public_flag === 'Public') {
+            if ($post && $post->public_flag === Post::PUBLIC) {
                 return $next($request);
             }
             return response(view('403'));
