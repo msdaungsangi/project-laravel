@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Contracts\Services\PostServiceInterface;
 use App\Http\Requests\PostRequest;
+use App\Http\Requests\PostDeleteRequest;
 use App\Models\Post;
 
 class PostController extends Controller
@@ -25,7 +26,7 @@ class PostController extends Controller
     {
         $this->postService = $postServiceInterface;
     }
-    
+
     /**
      * posts
      *
@@ -35,11 +36,11 @@ class PostController extends Controller
     {
         $posts = $this->postService->getPosts();
 
-        
+
 
         return view('posts.index', compact('posts'));
     }
-    
+
     /**
      * create
      *
@@ -49,7 +50,7 @@ class PostController extends Controller
     {
         return view('posts.create');
     }
-    
+
     /**
      * createPost
      *
@@ -64,7 +65,7 @@ class PostController extends Controller
         return redirect()->route('posts.index')
             ->with('success', $success);
     }
-    
+
     /**
      * detail
      *
@@ -76,7 +77,7 @@ class PostController extends Controller
         $post = $this->postService->getPostById($id);
         return view('posts.detail', compact('post'));
     }
-    
+
     /**
      * edit
      *
@@ -88,7 +89,7 @@ class PostController extends Controller
         $post = $this->postService->getPostById($id);
         return view('posts.edit', compact('post'));
     }
-    
+
     /**
      * update
      *
@@ -104,15 +105,16 @@ class PostController extends Controller
         return redirect()->route('posts.index')
             ->with('success', $success);
     }
-    
+
     /**
      * destroy
      *
      * @param  mixed $id
      * @return void
      */
-    public function destroy($id)
+    public function destroy(PostDeleteRequest $request)
     {
+        $id = $request->post_id;
         $this->postService->deletePostById($id);
         $success = config('messages.post.success_delete');
 

@@ -35,9 +35,9 @@
         <a href="{{ route('posts.edit', $post->id) }}" class="btn btn-success btn-sm">
           Edit
         </a>
-        <form action="{{ route('posts.delete', $post->id) }}" method="POST" class="d-inline">
+        <form action="{{ route('posts.delete') }}" class="d-inline">
           @csrf
-          @method('DELETE')
+          <input type="text" hidden value="{{ $post->id }}" name="post_id">
           <button class="btn btn-danger btn-sm" onclick="return confirm('Do you want to delete?')">Delete</button>
         </form>
         @endif
