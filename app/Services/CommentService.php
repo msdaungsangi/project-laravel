@@ -58,7 +58,7 @@ class CommentService implements CommentServiceInterface
             'user_id' => auth()->user()->id,
             'comment' => $request->comment,
         ];
-        return $this->CommentDao->updateComment($data, $id);
+        $this->CommentDao->updateComment($data, $id);
     }
 
     /**

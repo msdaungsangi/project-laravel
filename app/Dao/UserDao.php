@@ -54,7 +54,13 @@ class UserDao implements UserDaoInterface
      */
     public function getUserById(int $id)
     {
-        return User::findOrFail($id);
+        $user = User::with('posts')->find($id);
+        if ($user->role == User::ADMIN_ROLE) {
+            $user->role = 'Admin';
+        } elseif ($user->role == User::MEMBER_ROLE) {
+            $user->role = 'Member';
+        }
+        return $user;
     }
 
     /**

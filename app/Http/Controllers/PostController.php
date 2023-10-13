@@ -35,8 +35,6 @@ class PostController extends Controller
     public function posts()
     {
         $posts = $this->postService->getPosts();
-        $posts = Post::with('comments')->get();
-
         return view('posts.index', compact('posts'));
     }
 
@@ -74,7 +72,6 @@ class PostController extends Controller
     public function detail(int $id)
     {
         $post = $this->postService->getPostById($id);
-        $post = Post::with('comments')->find($id);
         return view('posts.detail', compact('post'));
     }
 

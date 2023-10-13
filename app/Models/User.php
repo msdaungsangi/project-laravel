@@ -56,9 +56,9 @@ class User extends Authenticatable
     /**
      * posts
      *
-     * @return void
+     * @return HasMany
      */
-    public function posts()
+    public function posts(): HasMany
     {
         return $this->hasMany(Post::class, 'created_by');
     }
@@ -66,9 +66,9 @@ class User extends Authenticatable
     /**
      * comments
      *
-     * @return void
+     * @return HasMany
      */
-    public function comments()
+    public function comments(): HasMany
     {
         return $this->hasMany(Comment::class, 'user_id');
     }

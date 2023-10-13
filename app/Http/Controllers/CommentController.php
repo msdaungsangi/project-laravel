@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Contracts\Services\CommentServiceInterface;
+use App\Models\Comment;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class CommentController extends Controller
@@ -29,9 +31,9 @@ class CommentController extends Controller
      * storeComment
      *
      * @param  mixed $request
-     * @return void
+     * @return JsonResponse
      */
-    public function storeComment(Request $request)
+    public function storeComment(Request $request): JsonResponse
     {
         $request->validate([
             'post_id' => 'required|integer',
@@ -45,10 +47,10 @@ class CommentController extends Controller
      * updateComment
      *
      * @param  mixed $request
-     * @param  mixed $id
-     * @return void
+     * @param  int $id
+     * @return JsonResponse
      */
-    public function updateComment(Request $request, int $id)
+    public function updateComment(Request $request, int $id): JsonResponse
     {
         $request->validate([
             'post_id' => 'integer|required',
@@ -62,10 +64,10 @@ class CommentController extends Controller
     /**
      * destroy
      *
-     * @param  mixed $id
-     * @return void
+     * @param  int $id
+     * @return JsonResponse
      */
-    public function destroy(int $id)
+    public function destroy(int $id): JsonResponse
     {
         $comment = $this->commentService->deleteCommentById($id);
         return response()->json($comment);

@@ -15,7 +15,6 @@ class PostDao implements PostDaoInterface
      */
     public function getPosts(): Collection
     {
-        $posts = Post::orderBy('id')->get();
         $posts = Post::with('comments')->get();
         return $posts;
     }
@@ -39,7 +38,6 @@ class PostDao implements PostDaoInterface
      */
     public function getPostById(int $id): object
     {
-        $post = Post::findOrFail($id);
         $post = Post::with('comments')->find($id);
         return $post;
     }
