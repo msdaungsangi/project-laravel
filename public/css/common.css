@@ -1,0 +1,11 @@
+p{
+  margin: 0;
+}
+
+.edit-form {
+  display: none;
+}
+
+body::-webkit-scrollbar {
+  display: none;
+}

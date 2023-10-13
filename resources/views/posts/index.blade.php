@@ -48,6 +48,14 @@
       <h5>{{ $post->title }}</h5>
       <p>{{ $post->description }}</p>
       <small>{{ $post->created_at }}</small>
+      <div class="border mt-2">
+        @foreach ($post->comments as $comment)
+        <div class="border px-3">
+          <p class="text-success">Comment by : {{ $comment->user_id }}</p>
+          <p>{{ $comment->comment }}</p>
+        </div>
+        @endforeach
+      </div>
     </div>
   </div>
   @endforeach

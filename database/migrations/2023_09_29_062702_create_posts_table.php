@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('title');
             $table->string('description')->nullable();
             $table->boolean('public_flag');
-            $table->integer('created_by');
+            $table->foreignId('created_by')->constrained('users');
             $table->integer('updated_by')->nullable();
             $table->timestamps();
         });
