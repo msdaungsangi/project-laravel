@@ -54,7 +54,8 @@ class UserDao implements UserDaoInterface
      */
     public function getUserById(int $id)
     {
-        return User::findOrFail($id);
+        $user = User::with('posts')->find($id);
+        return $user;
     }
 
     /**

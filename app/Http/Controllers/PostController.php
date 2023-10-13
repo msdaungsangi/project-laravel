@@ -35,9 +35,6 @@ class PostController extends Controller
     public function posts()
     {
         $posts = $this->postService->getPosts();
-
-
-
         return view('posts.index', compact('posts'));
     }
 

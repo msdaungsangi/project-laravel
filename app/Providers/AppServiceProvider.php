@@ -15,6 +15,8 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind('App\Contracts\Services\UserServiceInterface','App\Services\UserService');
         $this->app->bind('App\Contracts\Services\PostServiceInterface','App\Services\PostService');
         $this->app->bind('App\Contracts\Services\LoginServiceInterface','App\Services\LoginService');
+        $this->app->bind('App\Contracts\Services\CommentServiceInterface','App\Services\CommentService');
+        $this->app->bind('App\Contracts\Dao\CommentDaoInterface','App\Dao\CommentDao');
         $this->app->bind('App\Contracts\Dao\LoginDaoInterface','App\Dao\LoginDao');
         $this->app->bind('App\Contracts\Dao\UserDaoInterface','App\Dao\UserDao');
         $this->app->bind('App\Contracts\Dao\PostDaoInterface','App\Dao\PostDao'); 

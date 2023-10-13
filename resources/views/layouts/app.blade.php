@@ -16,8 +16,15 @@
 
     {{-- bootstrap css --}}
     <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet">
+    <link rel="stylesheet" href="{{ asset('css/common.css') }}">
+
     {{-- bootstrap bundle --}}
     <script src="{{ asset('js/bootstrap.min.js') }}"></script>
+
+    {{-- jquery & Ajax --}}
+    <script src="{{ asset('js/jquery.min.js') }}"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script>  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/jquery.validate.js"></script>
 </head>
 
 <body>
@@ -80,6 +87,7 @@
             @yield('content')
         </main>
     </div>
+    @yield('script')
 </body>
 
 </html>

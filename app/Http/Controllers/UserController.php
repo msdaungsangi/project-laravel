@@ -16,7 +16,7 @@ class UserController extends Controller
      * @var mixed
      */
     private $userService;
-    
+
     /**
      * __construct
      *
@@ -27,7 +27,7 @@ class UserController extends Controller
     {
         $this->userService = $userServiceInterface;
     }
-    
+
     /**
      * index
      *
@@ -47,7 +47,7 @@ class UserController extends Controller
 
         return view('users.index', compact('users'));
     }
-    
+
     /**
      * create
      *
@@ -57,7 +57,7 @@ class UserController extends Controller
     {
         return view('users.create');
     }
-    
+
     /**
      * registUser
      *
@@ -76,7 +76,7 @@ class UserController extends Controller
         $created = config('messages.user.create_success');
         return redirect()->route('auth.login')->with('success', $created);
     }
-    
+
     /**
      * store
      *
@@ -98,7 +98,7 @@ class UserController extends Controller
 
         return redirect()->route('users.index')->with('success', $created);
     }
-    
+
     /**
      * show
      *
@@ -108,14 +108,9 @@ class UserController extends Controller
     public function show(int $id)
     {
         $user = $this->userService->getUserById($id);
-        if ($user->role == User::ADMIN_ROLE) {
-            $user->role = 'Admin';
-        } elseif ($user->role == User::MEMBER_ROLE) {
-            $user->role = 'Member';
-        }
         return view('users.show', compact('user'));
     }
-    
+
     /**
      * edit
      *
@@ -125,10 +120,9 @@ class UserController extends Controller
     public function edit(int $id)
     {
         $user = $this->userService->getUserById($id);
-
         return view('users.edit', compact('user'));
     }
-    
+
     /**
      * update
      *
@@ -156,7 +150,7 @@ class UserController extends Controller
         return redirect()->route('users.index')
             ->with('success', $updated);
     }
-    
+
     /**
      * destroy
      *

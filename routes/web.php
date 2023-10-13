@@ -3,7 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\Auth\LoginController;
-use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\CommentController;
 use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\PostController;
@@ -54,4 +54,10 @@ Route::prefix('posts')->group(function () {
         Route::put('/update/{id}', [PostController::class, 'update'])->name('posts.update')->middleware('detailPrivate');
     });
     Route::get('/destroy', [PostController::class, 'destroy'])->name('posts.delete');
+});
+
+Route::prefix('comments')->group(function () {
+    Route::post('/', [CommentController::class, 'storeComment'])->name('comments.store');
+    Route::put('/update/{id}', [CommentController::class, 'updateComment'])->name('comments.update');
+    Route::get('/destroy/{id}', [CommentController::class, 'destroy'])->name('comments.delete');
 });

@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Contracts\Dao\UserDaoInterface;
 use App\Contracts\Services\UserServiceInterface;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Hash;
@@ -112,7 +113,13 @@ class UserService implements UserServiceInterface
      */
     public function getUserById(int $id)
     {
-        return $this->userDao->getUserById($id);
+        $user = $this->userDao->getUserById($id);
+        if ($user->role == User::ADMIN_ROLE) {
+            $user->role = 'Admin';
+        } elseif ($user->role == User::MEMBER_ROLE) {
+            $user->role = 'Member';
+        }
+        return $user;
     }
 
     /**
