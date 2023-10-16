@@ -10,8 +10,16 @@
   </div>
   @endif
   @if (!empty(Auth::user()))
-  <div class="d-flex">
+  <div class="d-flex justify-content-between">
     <a href="{{ route('posts.create') }}" class="btn btn-primary btn-sm mb-3">Create Post</a>
+    <div>
+      <form action="{{ route('posts.import') }}" method="POST" enctype="multipart/form-data" class="d-inline">
+        @csrf
+        <input type="file" name="file" id="upload-file" accept=".xlsx, .csv" onchange="form.submit()" hidden />
+        <label for="upload-file" class="pp-edit btn btn-success btn-sm mb-3">Choose file</label>
+      </form>
+      <a href="{{ route('posts.export') }}" class="btn btn-info btn-sm mb-3">Export Post</a>
+    </div>
   </div>
   @endif
   @foreach ($posts as $post)
