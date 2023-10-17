@@ -54,6 +54,8 @@ Route::prefix('posts')->group(function () {
         Route::put('/update/{id}', [PostController::class, 'update'])->name('posts.update')->middleware('detailPrivate');
     });
     Route::get('/destroy', [PostController::class, 'destroy'])->name('posts.delete');
+    Route::post('/import', [PostController::class, 'import'])->name('posts.import');
+    Route::get('/export', [PostController::class, 'export'])->name('posts.export');
 });
 
 Route::prefix('comments')->group(function () {

@@ -3,9 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Contracts\Services\PostServiceInterface;
+use App\Exports\PostExport;
 use App\Http\Requests\PostRequest;
 use App\Http\Requests\PostDeleteRequest;
+use App\Imports\PostImport;
 use App\Models\Post;
+use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
 
 class PostController extends Controller
 {
@@ -117,5 +121,34 @@ class PostController extends Controller
 
         return redirect()->route('posts.index')
             ->with('success', $success);
+    }
+    
+    /**
+     * export
+     *
+     * @return void
+     */
+    public function export()
+    {
+        return Excel::download(new PostExport(), 'post.csv');
+    }
+    
+    /**
+     * import
+     *
+     * @param  mixed $request
+     * @return void
+     */
+    public function import(Request $request)
+    {
+        $request->validate([
+            'file' => 'required|mimes:csv,xlsx',
+        ]);
+
+        $file = $request->file('file');
+        Excel::import(new PostImport, $file);
+
+        $success = config('messages.post.success_import');
+        return redirect()->route('posts.index')->with('success', $success);
     }
 }
