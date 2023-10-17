@@ -19,10 +19,10 @@
   </div>
 
   <div class="form-group my-2">
-    <input type="radio" name="public_flag" id="public" value="true" class="form-check-input" {{ (isset($post) && $post->public_flag === 'Public') || old('public_flag') == 'true' ? 'checked' : '' }}>
+    <input type="radio" name="public_flag" id="public" value="true" class="form-check-input" {{ (isset($post) && $post->public_flag == 'true') || old('public_flag') == 'true' ? 'checked' : '' }}>
     <label for="adminRole" class="form-check-label">Public</label>
 
-    <input type="radio" name="public_flag" id="private" value="false" class="form-check-input" {{ (isset($post) && $post->public_flag === 'Private') || old('public_flag') == 'false' ? 'checked' : '' }}>
+    <input type="radio" name="public_flag" id="private" value="false" class="form-check-input" {{ (isset($post) && $post->public_flag == 'false') || old('public_flag') == 'false' ? 'checked' : '' }}>
     <label for="userRole" class="form-check-label">Private</label>
     @error('public_flag')
     <strong class="text-danger">{{ $message }}</strong>
