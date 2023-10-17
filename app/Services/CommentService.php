@@ -71,4 +71,15 @@ class CommentService implements CommentServiceInterface
     {
         $this->CommentDao->deleteCommentById($id);
     }
+    
+    /**
+     * getCommentById
+     *
+     * @param  int $id
+     * @return void
+     */
+    public function getCommentById(int $id)
+    {
+        $this->CommentDao->getCommentById($id);
+    }
 }

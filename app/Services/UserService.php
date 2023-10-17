@@ -42,7 +42,7 @@ class UserService implements UserServiceInterface
     {
         return $this->userDao->getUsers();
     }
-    
+
     /**
      * registerUser
      *
@@ -52,7 +52,7 @@ class UserService implements UserServiceInterface
      */
     public function registerUser(Request $request, array $data)
     {
-        if ($request->role == null){
+        if ($request->role == null) {
             $role = '2';
         } else {
             $role = $request->role;
@@ -66,7 +66,7 @@ class UserService implements UserServiceInterface
 
         $this->userDao->registerUser($request, $data);
     }
-    
+
     /**
      * createUser
      *
@@ -147,7 +147,8 @@ class UserService implements UserServiceInterface
             }
             $request->file('img')->storeAs($folder, $imageName);
         } else {
-            $imageName = null;
+            $user = $this->userDao->getUserById($id);
+            $imageName = $user->img;
         }
         $data = [
             'name' => $data['name'],
@@ -160,11 +161,11 @@ class UserService implements UserServiceInterface
 
         $this->userDao->updateUser($request, $data, $id);
     }
-
+    
     /**
      * deleteUserById
      *
-     * @param  mixed $id
+     * @param  int $id
      * @return void
      */
     public function deleteUserById(int $id)

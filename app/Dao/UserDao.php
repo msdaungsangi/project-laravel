@@ -5,6 +5,7 @@ namespace App\Dao;
 use App\Contracts\Dao\UserDaoInterface;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 /**
  * UserDao
@@ -54,7 +55,7 @@ class UserDao implements UserDaoInterface
      */
     public function getUserById(int $id)
     {
-        $user = User::with('posts')->find($id);
+        $user = User::with('posts')->findOrFail($id);
         return $user;
     }
 
@@ -69,6 +70,10 @@ class UserDao implements UserDaoInterface
     public function updateUser(Request $request, array $data, int $id)
     {
         $user = User::findOrFail($id);
+        $userPhoto = 'storage/images/'. $user->img;
+        if(file_exists($userPhoto)){
+            @unlink($userPhoto);
+        }
         $user->update($data);
     }
 
@@ -81,6 +86,10 @@ class UserDao implements UserDaoInterface
     public function deleteUserById(int $id)
     {
         $user = User::findOrFail($id);
+        $userPhoto = 'storage/images/'. $user->img;
+        if(file_exists($userPhoto)){
+            @unlink($userPhoto);
+        }
         $user->delete();
     }
 }

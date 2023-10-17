@@ -5,14 +5,14 @@
   @endif
   <div class="form-group">
     <label class="form-label">Title</label>
-    <input type="text" name="title" class="form-control @error('title') is-invalid @enderror" placeholder="Title" value="{{ isset($post) ? $post->title : old('title')}}">
+    <input type="text" name="title" class="form-control @error('title') is-invalid @enderror" placeholder="Title" value="{{ isset($post) && !$errors->any() ? $post->title : old('title') }}">
     @error('title')
     <strong class="text-danger">{{ $message }}</strong>
     @enderror
   </div>
   <div class="form-group">
     <label class="form-label">Description</label>
-    <input type="text" name="description" class="form-control  @error('description') is-invalid @enderror" placeholder="Description" value="{{ isset($post) ? $post->description : old('description')}}">
+    <input type="text" name="description" class="form-control  @error('description') is-invalid @enderror" placeholder="Description" value="{{ isset($post) && !$errors->any() ? $post->description : old('description') }}">
     @error('description')
     <strong class="text-danger">{{ $message }}</strong>
     @enderror
@@ -31,6 +31,6 @@
 
   <div class="d-flex justify-content-between mt-2">
     <a href="{{ route('posts.index') }}" type="submit" class="btn btn-secondary">Back</a>
-    <button type="submit" class="btn btn-primary">@if(isset($post)) Update @else Create @endif </button>
+    <button type="submit" class="btn btn-primary submit-btn">@if(isset($post)) Update @else Create @endif </button>
   </div>
 </form>

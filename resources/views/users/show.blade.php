@@ -32,7 +32,7 @@
       </div>
       <div class="row mt-3">
         @foreach ($user->posts as $post)
-        <div class="col-4">
+        <div class="col-4 mb-2">
           <div class="card">
             <div class="d-flex justify-content-between card-header">
               <h5>Post by: <small class="fs-5">{{ $user->name }}</small></h5>

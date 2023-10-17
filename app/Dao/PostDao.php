@@ -38,7 +38,7 @@ class PostDao implements PostDaoInterface
      */
     public function getPostById(int $id): object
     {
-        $post = Post::with('comments')->find($id);
+        $post = Post::with('comments')->findOrFail($id);
         return $post;
     }
     
