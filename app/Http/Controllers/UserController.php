@@ -91,7 +91,7 @@ class UserController extends Controller
             'password' => 'required|max:255',
             'name' => 'required|max:100',
             'img' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2024',
-            'role' => 'required|in:1,2',
+            'role' => 'required|in:' . User::ADMIN_ROLE . ',' . User::MEMBER_ROLE,
         ]);
         $user = $request->all();
         $this->userService->createUser($request, $user);
@@ -142,7 +142,7 @@ class UserController extends Controller
             'password' => 'required|max:255',
             'name' => 'required|max:100',
             'img' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:255',
-            'role' => 'required|in:1,2',
+            'role' => 'required|in:' . User::ADMIN_ROLE . ',' . User::MEMBER_ROLE,
         ]);
         $user = $request->all();
         $this->userService->updateUser($request, $user, $id);

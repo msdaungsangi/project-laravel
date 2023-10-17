@@ -33,7 +33,7 @@ class Detail
     {
         if (!Auth::check()) {
             $post = $this->postService->getPostById($request->id);
-            if ($post && $post->public_flag ==='Public') {
+            if ($post && $post->public_flag === Post::PUBLIC) {
                 return $next($request);
             }
             return response(view('403'));

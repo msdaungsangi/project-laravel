@@ -43,7 +43,13 @@ class CommentDao implements CommentDaoInterface
         $comment = Comment::findOrFail($id);
         $comment->delete();
     }
-
+    
+    /**
+     * getCommentById
+     *
+     * @param  int $id
+     * @return void
+     */
     public function getCommentById(int $id)
     {
         return Comment::findOrFail($id);
