@@ -90,11 +90,6 @@ class PostService implements PostServiceInterface
     public function getPostById(int $id): object
     {
         $post = $this->PostDao->getPostById($id);
-        if ($post->public_flag == Post::PUBLIC) {
-            $post->public_flag = 'Public';
-        } elseif ($post->public_flag == Post::PRIVATE) {
-            $post->public_flag = 'Private';
-        }
         return $post;
     }
 
