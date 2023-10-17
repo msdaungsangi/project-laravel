@@ -49,13 +49,18 @@ class PostImport implements ToCollection, WithValidation
             throw $e;
         }
     }
-
+    
+    /**
+     * rules
+     *
+     * @return array
+     */
     public function rules(): array
     {
         return [
             '0' => 'required|max:255',
             '1' => 'nullable',
-            '2' => 'required|',
+            '2' => 'required',
         ];
     }
 }
