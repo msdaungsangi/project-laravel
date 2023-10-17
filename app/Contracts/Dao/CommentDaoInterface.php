@@ -9,4 +9,6 @@ interface CommentDaoInterface
     public function updateComment(array $data, int $id);
 
     public function deleteCommentById(int $id);
+
+    public function getCommentById(int $id);
 }

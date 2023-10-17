@@ -60,6 +60,11 @@ class PostController extends Controller
      */
     public function createPost(PostRequest $request)
     {
+        $request->validate([
+            'title' => 'required|max:225',
+            'description'=> 'nullable',
+            'public_flag' => 'required|in:true,false',
+        ]);
         $this->postService->createPost($request->all());
         $success = config('messages.post.success_create');
 
@@ -100,6 +105,11 @@ class PostController extends Controller
      */
     public function update(PostRequest $request, int $id)
     {
+        $request->validate([
+            'title' => 'required|max:225',
+            'description'=> 'nullable',
+            'public_flag' => 'required|in:true,false',
+        ]);
         $this->postService->updatePost($request->all(), $id);
         $success = config('messages.post.success_update');
 

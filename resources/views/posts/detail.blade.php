@@ -43,6 +43,7 @@
             <p class="px-2 py-1 bg-secondary-subtle rounded-top-2">Comment by : {{ $comment->user_id}}</p>
             <div class="d-flex justify-content-between py-1 px-2">
                 <p class="cmd-txt">{{ $comment->comment }}</p>
+                @if (!empty(Auth::user()))
                 <div>
                     <button type="button" class="btn btn-sm btn-success edit-cmt">Edit</button>
                     <form class="d-inline" id="deleteForm">
@@ -51,6 +52,7 @@
                         <button class="btn btn-danger btn-sm delete-cmt" onclick="return confirm('Do you want to delete?')">Delete</button>
                     </form>
                 </div>
+                @endif
             </div>
             <div class="edit-form p-2">
                 <form id="editForm">
@@ -72,6 +74,7 @@
         </div>
         @endforeach
     </div>
+    @if (!empty(Auth::user()))
     <div>
         <form id="commentForm">
             @csrf
@@ -88,6 +91,7 @@
             </div>
         </form>
     </div>
+    @endif
     <div class="mt-2">
         <a href="{{ route('posts.index') }}" type="submit" class="btn btn-secondary btn-sm">Back</a>
     </div>
@@ -110,7 +114,7 @@
                     var commentTxt = data.comment
                     $newComment = `
                         <div class="border my-1 rounded-2 comment">
-                            <p class="px-2 py-1 bg-secondary-subtle rounded-top-2">Comment by : {{ Auth::user()->id }}</p>
+                            <p class="px-2 py-1 bg-secondary-subtle rounded-top-2">Comment by :  @if (!empty(Auth::user())) {{ Auth::user()->id }} @endif</p>
                             <div class="d-flex justify-content-between py-1 px-2">
                             <p class="cmd-txt">${commentTxt}</p>
                             <div>

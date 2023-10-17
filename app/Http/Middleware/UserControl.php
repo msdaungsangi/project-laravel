@@ -6,22 +6,27 @@ use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Support\Facades\Auth;
-use App\Contracts\Services\PostServiceInterface;
-use App\Models\Post;
+use App\Contracts\Services\UserServiceInterface;
+use App\Models\User;
 
-class Detail
+class UserControl
 {
-    protected $postService;
-    
+    /**
+     * userService
+     *
+     * @var mixed
+     */
+    protected $userService;
+
     /**
      * __construct
      *
-     * @param  mixed $postService
+     * @param  mixed $userService
      * @return void
      */
-    public function __construct(PostServiceInterface $postService)
+    public function __construct(UserServiceInterface $userService)
     {
-        $this->postService = $postService;
+        $this->userService = $userService;
     }
 
     /**
@@ -32,13 +37,13 @@ class Detail
     public function handle(Request $request, Closure $next): Response
     {
         if (!Auth::check()) {
-            $post = $this->postService->getPostById($request->id);
-            if ($post && $post->public_flag ==='Public') {
-                return $next($request);
-            }
             return response(view('403'));
-        } else {
+        }
+        $user = $this->userService->getUserById($request->id);
+        if (Auth::user()->id == $user->id || Auth::user()->role == User::ADMIN_ROLE) {
             return $next($request);
+        } else {
+            return response(view('403'));
         }
     }
 }

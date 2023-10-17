@@ -60,6 +60,8 @@ Route::prefix('posts')->group(function () {
 
 Route::prefix('comments')->group(function () {
     Route::post('/', [CommentController::class, 'storeComment'])->name('comments.store');
-    Route::put('/update/{id}', [CommentController::class, 'updateComment'])->name('comments.update');
-    Route::get('/destroy/{id}', [CommentController::class, 'destroy'])->name('comments.delete');
+    Route::group(['middleware' => 'comment'], function () {
+        Route::put('/update/{id}', [CommentController::class, 'updateComment'])->name('comments.update');
+        Route::get('/destroy/{id}', [CommentController::class, 'destroy'])->name('comments.delete');
+    });
 });

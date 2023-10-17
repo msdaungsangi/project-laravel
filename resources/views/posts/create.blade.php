@@ -13,3 +13,13 @@
   </div>
 </div>
 @endsection
+
+@section('script')
+<script>
+    $(document).ready(function() {
+        $('form').on('submit', function() {
+            $('.submit-btn').attr("disabled", true)
+        })
+    })
+</script>
+@endsection

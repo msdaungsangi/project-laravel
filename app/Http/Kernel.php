@@ -67,5 +67,6 @@ class Kernel extends HttpKernel
         'user' => \App\Http\Middleware\UserControl::class,
         'post' => \App\Http\Middleware\OwnData::class,
         'detailPrivate' => \App\Http\Middleware\Detail::class,
+        'comment' => \App\Http\Middleware\CommentControl::class,
     ];
 }
